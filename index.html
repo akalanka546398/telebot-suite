@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Analytics</h2>
+<div class="card stats">
+  <div class="stat"><div class="num">{{ stats.active }}</div><div class="label">Active subscribers</div></div>
+  <div class="stat"><div class="num">{{ stats.new_last_7d }}</div><div class="label">New (7 days)</div></div>
+  <div class="stat"><div class="num">{{ stats.total }}</div><div class="label">All-time subscribers</div></div>
+</div>
+
+<h3>Recent broadcasts</h3>
+<div class="card">
+  <table>
+    <tr><th>Text</th><th>Scheduled</th><th>Status</th><th>Sent</th><th>Failed</th></tr>
+    {% for b in broadcasts %}
+    <tr>
+      <td>{{ b.text[:60] }}{% if b.text|length > 60 %}…{% endif %}</td>
+      <td>{{ b.scheduled_at | fmt_time if b.scheduled_at else "Immediately" }}</td>
+      <td><span class="pill {{ 'sent' if b.status == 'sent' else 'pending' }}">{{ b.status }}</span></td>
+      <td>{{ b.sent_count }}</td>
+      <td>{{ b.failed_count }}</td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5" style="color:var(--muted)">No broadcasts yet. <a href="/compose">Create one</a>.</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

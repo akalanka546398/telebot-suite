@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>New broadcast</h2>
+<div class="card">
+  <form method="post" action="/compose">
+    <label>Message text</label>
+    <textarea name="text" required placeholder="What should subscribers see?"></textarea>
+
+    <label>Schedule for later (optional — leave blank to send as soon as the bot next polls)</label>
+    <input type="datetime-local" name="schedule_at">
+
+    <div style="margin-top:18px;">
+      <button type="submit">Save broadcast</button>
+    </div>
+  </form>
+</div>
+<p style="color:var(--muted); font-size:13px;">
+  This only sends to subscribers who opted in with /start, at a rate of a few messages per
+  second, so it won't trip Telegram's spam protections.
+</p>
+{% endblock %}
